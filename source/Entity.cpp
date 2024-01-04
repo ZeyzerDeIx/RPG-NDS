@@ -3,9 +3,10 @@
 
 using namespace std;
 
-Entity::Entity(Sprite* sprite, float w, float h):
+Entity::Entity(Sprite* sprite, float w, float h, float posX, float posY):
 	m_sprite(sprite),
-	m_pos{0,0},
+	m_pos{posX,posY},
+	m_displayPos{posX,posY},
 	m_size{w,h},
 	m_speed(1.5f),
 	m_hitbox(m_pos[X],m_pos[Y],w,h),
@@ -23,13 +24,13 @@ void Entity::update()
 
 void Entity::display()
 {
-	m_sprite->display(m_pos[X], m_pos[Y]);
+	m_sprite->display(m_displayPos[X], m_displayPos[Y]);
 }
 
-/*void Entity::displayHitbox()
+void Entity::displayHitbox()
 {
-	m_hitbox.display();
-}*/
+	m_hitbox.display(m_displayPos[X],m_displayPos[Y]+m_size[H]/2);
+}
 
 void Entity::move(float x, float y)
 {

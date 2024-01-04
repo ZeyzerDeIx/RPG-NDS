@@ -51,8 +51,8 @@ void Character::move(float x, float y)
 
 void Character::updateHitbox()
 {
-	m_hitbox.setRect(m_pos[X]+m_size[W]*0.2f,
-		             m_pos[Y]+m_size[H]*0.15f + m_size[H]/2.f,
-		             m_size[W]*0.85f,
-		             m_size[H]*0.875f/2.f);
+	m_hitbox.setRect(m_pos[X],
+		             m_pos[Y] + m_size[H]/2.f,
+		             m_size[W],
+		             m_size[H]/2.f);
 }

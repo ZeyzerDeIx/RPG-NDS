@@ -29,12 +29,12 @@
 			void setConnections(u8 connections);
 			int getPos(bool xOrY);
 			void setPos(int posX, int posY);
-			void setDisplayPos(int posX, int posY);
-			int getDisplayPos(bool xOrY);
+			void setDisplayPos(short posX, short posY);
+			short getDisplayPos(bool xOrY);
 		private:
 			Sprite* m_sprite;
 			int m_pos[2];
-			int m_displayPos[2];
+			short m_displayPos[2];
 			u8 m_connections;
 			u8 m_corner;
 			float m_scale;

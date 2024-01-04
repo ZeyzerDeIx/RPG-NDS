@@ -38,12 +38,12 @@ void Tile::setPos(int posX, int posY)
 {
 	m_pos[X] = posX, m_pos[Y] = posY;
 }
-void Tile::setDisplayPos(int posX, int posY)
+void Tile::setDisplayPos(short posX, short posY)
 {
 	m_displayPos[X] = posX, m_displayPos[Y] = posY;
 }
 
-int Tile::getDisplayPos(bool xOrY)
+short Tile::getDisplayPos(bool xOrY)
 {
 	return m_displayPos[xOrY];
 }
