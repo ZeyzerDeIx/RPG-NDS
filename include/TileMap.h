@@ -28,9 +28,6 @@
 			void displayHitboxs();
 			bool collide(Entity& entity);
 			std::deque<rect> getCollisions(Entity& entity);
-			void reload();
-			void loadAll(); //for debug purposes
-			void loadZone(float x, float y);
 			void setCenterMetaTile(MetaTile* centerMetaTile);
 			MetaTile* getCenterMetaTile();
 		private:

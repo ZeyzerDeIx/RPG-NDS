@@ -31,10 +31,6 @@
 			void setPos(int posX, int posY);
 			void setDisplayPos(int posX, int posY);
 			int getDisplayPos(bool xOrY);
-			bool isLoaded();
-			//void load();
-			void unload();
-			bool isInRenderZone(int playerPosX, int playerPosY);
 		private:
 			Sprite* m_sprite;
 			int m_pos[2];
@@ -42,7 +38,6 @@
 			u8 m_connections;
 			u8 m_corner;
 			float m_scale;
-			bool m_isLoaded;
 	};
 
 #endif//TILE_H

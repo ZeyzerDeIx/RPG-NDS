@@ -23,16 +23,13 @@
 			void setDisplayPos(int posX, int posY);
 			int getDisplayPos(bool xOrY);
 			void setConnections(u8 connections);
-			void display(int playerPosX, int playerPosY);
+			void display();
 			bool hasSameTypeAs(MetaTile& other);
 			bool collide(Entity& entity);
 			void displayHitbox();
 			int getPos(bool xOrY);
 			Hitbox& getHitbox();
 			u8 getType();
-			bool isLoaded();
-			void unload();
-			bool isInRenderZone(int playerPosX, int playerPosY);
 			void forcedDisplay();
 			void update(int playerPosX, int playerPosY);
 			short getCoo(bool xOrY);
@@ -44,7 +41,6 @@
 			short m_coo[2];
 			Hitbox m_hitbox;
 			float m_scale;
-			bool m_isLoaded;
 
 			u8 bitCheck(u8 source, u8 filter, int offset);
 			u8 cornerFilter(u8 source);

@@ -29,7 +29,6 @@ void TileMap::update()
 	{
 		m_map.clear();
 		generateMap();
-		reload();
 	}
 	//center player pos
 	int playPos[2]{
@@ -37,22 +36,14 @@ void TileMap::update()
 		int(m_player->getPos(Y)+m_player->getSize(H)/2)};
 	for (unsigned int i = 0; i < m_map.size(); ++i)
 		for (unsigned int j = 0 ; j < m_map[i].size() ; ++j)
-		{
 			m_map[i][j].update(playPos[X],playPos[Y]);
-			/*if(!m_map[i][j].isInRenderZone(playPos[X],playPos[Y]))
-				m_map[i][j].unload();*/
-		}
 }
 
 void TileMap::display()
 {
-	//center player pos
-	int playPos[2]{int(m_player->getPos(X)+m_player->getSize(W)/2),
-				   int(m_player->getPos(Y)+m_player->getSize(H)/2)};
 	for (unsigned int i = 0; i < m_map.size(); ++i)
 		for (unsigned int j = 0 ; j < m_map[i].size() ; ++j)
-			/*if(m_map[i][j].isInRenderZone(playPos[X],playPos[Y]))*/
-				m_map[i][j].display(playPos[X],playPos[Y]);
+			m_map[i][j].display();
 }
 
 void TileMap::displayHitboxs()
@@ -81,29 +72,6 @@ deque<rect> TileMap::getCollisions(Entity& entity)
 			   m_map[i][j].collide(entity))
 				collisions.push_back(m_map[i][j].getHitbox().getRect());
 	return collisions;
-}
-
-void TileMap::reload()
-{
-	for (unsigned int i = 0; i < m_map.size(); ++i)
-		for (unsigned int j = 0 ; j < m_map[i].size() ; ++j)
-			m_map[i][j].unload();
-}
-
-void TileMap::loadAll()
-{
-	for (unsigned int i = 0; i < m_map.size(); ++i)
-		for (unsigned int j = 0 ; j < m_map[i].size() ; ++j)
-			m_map[i][j].forcedDisplay();
-}
-
-void TileMap::loadZone(float x, float y)
-{
-	for (unsigned int i = 0; i < m_map.size(); ++i)
-		for (unsigned int j = 0 ; j < m_map[i].size() ; ++j)
-			if(!m_map[i][j].isLoaded() &&
-			   m_map[i][j].isInRenderZone(x,y))
-				m_map[i][j].display(x,y);
 }
 
 void TileMap::setCenterMetaTile(MetaTile* centerMetaTile)

@@ -11,8 +11,7 @@ MetaTile::MetaTile(TileMap* tileMap, Sprite* sprite, u8 type, int posX, int posY
 	m_type(type),
 	m_coo{cooX, cooY},
 	m_hitbox(posX,posY,(SIZE*scale),(SIZE*scale)),
-	m_scale(scale),
-	m_isLoaded(false)
+	m_scale(scale)
 {
 	for (int corner = 0; corner < 4; ++corner)
 		m_tiles[corner] = Tile(sprite, corner,
@@ -65,15 +64,10 @@ void MetaTile::setConnections(u8 connections)
 	m_tiles[BOTTOM_RIGHT].setConnections(cornerFilter(bottomRightCorner));
 }
 
-void MetaTile::display(int playerPosX, int playerPosY)
+void MetaTile::display()
 {
-	m_isLoaded = true;
 	for (int i = 0; i < 4; ++i)
-	{
-		if(m_tiles[i].isInRenderZone(playerPosX,playerPosY))
-			m_tiles[i].display();
-		m_isLoaded = m_isLoaded && m_tiles[i].isLoaded();
-	}
+		m_tiles[i].display();
 }
 
 bool MetaTile::hasSameTypeAs(MetaTile& other)
@@ -105,19 +99,6 @@ u8 MetaTile::getType()
 {
 	return m_type;
 }
-
-bool MetaTile::isLoaded()
-{
-	return m_isLoaded;
-}
-
-void MetaTile::unload()
-{
-	m_isLoaded = false;
-	for (int i = 0; i < 4; ++i)
-		m_tiles[i].unload();
-}
-
 void MetaTile::forcedDisplay()
 {
 	for (int i = 0; i < 4; ++i)
@@ -154,13 +135,3 @@ u8 MetaTile::cornerFilter(u8 source)
 	if(source == 0b0000'0111) return 0b0000'0100;
 	return source & 0b0000'0011;
 }
-
-/*
-m_tiles[0] = Tile(sprite, 0, posX, posY);
-m_tiles[1] = Tile(sprite, 1, posX+TILE::SIZE, posY);
-m_tiles[2] = Tile(sprite, 2, posX, posY+TILE::SIZE);
-m_tiles[3] = Tile(sprite, 3, posX+TILE::SIZE, posY+TILE::SIZE);
-->
-for (int i = 0; i < 4; ++i)
-	m_tiles[i] = Tile(sprite, i, posX+TILE::SIZE*(i%2 == 1), posY+TILE::SIZE*(i>1));
-*/
