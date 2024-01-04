@@ -16,7 +16,7 @@ Fps::~Fps() {}
 void Fps::newFrame()
 {
 	m_frameCounter++;
-	cout << "\x1b[23;26HFPS:" << setfill(' ') << setw(2) << m_fps << "\x1b[0;0H";
+	cout << "\x1b[23;23HFPS:" << setfill(' ') << setw(5) << m_fps << "\x1b[0;0H";
 }
 
 void Fps::update()

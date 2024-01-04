@@ -2,19 +2,23 @@
 #include "TileMap.h"
 
 using namespace METATILE;
-
+using namespace std;
 
 MetaTile::MetaTile(): m_hitbox(0,0,0,0) {}
-MetaTile::MetaTile(TileMap* tileMap, Sprite* sprite, u8 type, int posX, int posY, short cooX, short cooY):
+MetaTile::MetaTile(TileMap* tileMap, Sprite* sprite, u8 type, int posX, int posY, short cooX, short cooY, float scale):
 	m_tileMap(tileMap),
+	m_connections(0b0000'0000),
 	m_type(type),
 	m_coo{cooX, cooY},
-	m_hitbox(posX,posY,SIZE+4,SIZE)
+	m_hitbox(posX,posY,(SIZE*scale),(SIZE*scale)),
+	m_scale(scale),
+	m_isLoaded(false)
 {
-	for (int i = 0; i < 4; ++i)
-		m_tiles[i] = Tile(sprite, i, posX+TILE::SIZE*(i&1), posY+TILE::SIZE*(i>1));
-	m_connections = 0b0000'0000;
-	m_isLoaded = false;
+	for (int corner = 0; corner < 4; ++corner)
+		m_tiles[corner] = Tile(sprite, corner,
+			posX+ (corner&1)*TILE::SIZE*m_scale,
+			posY+ (corner>1)*TILE::SIZE*m_scale,
+			m_scale);
 }
 MetaTile::~MetaTile() {}
 
@@ -26,8 +30,10 @@ MetaTile::~MetaTile() {}
 }*/
 void MetaTile::setDisplayPos(int posX, int posY)
 {
-	for (int i = 0; i < 4; ++i)
-		m_tiles[i].setDisplayPos(posX+TILE::SIZE*(i&1), posY+TILE::SIZE*(i>1));
+	for (int corner = 0; corner < 4; ++corner)
+		m_tiles[corner].setDisplayPos(
+			posX+ (corner&1)*TILE::SIZE*m_scale,
+			posY+ (corner>1)*TILE::SIZE*m_scale);
 }
 
 int MetaTile::getDisplayPos(bool xOrY)
@@ -82,7 +88,7 @@ bool MetaTile::collide(Entity& entity)
 
 void MetaTile::displayHitbox()
 {
-	//m_hitbox.display(getDisplayPos(X), getDisplayPos(Y));
+	m_hitbox.display(getDisplayPos(X), getDisplayPos(Y));
 }
 
 int MetaTile::getPos(bool xOrY)
@@ -112,18 +118,6 @@ void MetaTile::unload()
 		m_tiles[i].unload();
 }
 
-bool MetaTile::isInRenderZone(int playerPosX, int playerPosY)
-{
-	/*if(std::max(std::abs(getPos(X)),std::abs(getPos(Y))) > 10000)
-		std::cout << std::endl << " " << m_coo[X] << " " << m_coo[Y];*/
-	return (playerPosY<getPos(Y)?
-			(getPos(Y)-playerPosY):
-			(playerPosY-(getPos(Y)+m_hitbox.getRect().h))) <= FOG_DISTANCE_Y &&
-		   (playerPosX<getPos(X)?
-			(getPos(X)-playerPosX):
-			(playerPosX-(getPos(X)+m_hitbox.getRect().w))) <= FOG_DISTANCE_X;
-}
-
 void MetaTile::forcedDisplay()
 {
 	for (int i = 0; i < 4; ++i)
@@ -132,7 +126,7 @@ void MetaTile::forcedDisplay()
 
 void MetaTile::update(int playerPosX, int playerPosY)
 {
-	if(playerPosX/SIZE == m_coo[X] and playerPosY/SIZE == m_coo[Y] and
+	if(playerPosX/((int)(SIZE*m_scale)) == m_coo[X] and playerPosY/((int)(SIZE*m_scale))== m_coo[Y] and
 	   m_tileMap->getCenterMetaTile() != this)
 		m_tileMap->setCenterMetaTile(this);
 }

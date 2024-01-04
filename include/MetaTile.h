@@ -17,7 +17,7 @@
 	{
 		public:
 			MetaTile();
-			MetaTile(TileMap* tileMap, Sprite* sprite, u8 type, int posX, int posY, short cooX, short cooY);
+			MetaTile(TileMap* tileMap, Sprite* sprite, u8 type, int posX, int posY, short cooX, short cooY, float scale=1.f);
 			~MetaTile();
 			//void setPos(int posX, int posY);
 			void setDisplayPos(int posX, int posY);
@@ -43,6 +43,7 @@
 			u8 m_type;
 			short m_coo[2];
 			Hitbox m_hitbox;
+			float m_scale;
 			bool m_isLoaded;
 
 			u8 bitCheck(u8 source, u8 filter, int offset);

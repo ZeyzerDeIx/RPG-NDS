@@ -5,6 +5,7 @@
 
 	class Sprite
 	{
+	#define NORMAL_SCALE 4096
 	public:
 		Sprite();
 		Sprite(int frameWidth, int frameHeight, const unsigned int* bitmap = nullptr, const uint16* palette = nullptr, int framesNumber = 1, int statesNumber = 1, bool transparency = false);
@@ -12,7 +13,7 @@
 
 		void update();
 		void display(int posX, int posY);
-		void manualDisplay(int posX, int posY, int frame = 0, int state = 0, bool flipX = false, bool flipY = false);
+		void manualDisplay(int posX, int posY, int frame = 0, int state = 0, float scale = 1.f, bool flipX = false, bool flipY = false);
 		void displayAll();
 		void skipFrame(int num = 1);
 		void setFrame(int frame);

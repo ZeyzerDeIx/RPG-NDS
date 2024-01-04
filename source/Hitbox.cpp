@@ -19,27 +19,18 @@ bool Hitbox::collide(const Hitbox& other)
     return m_isCollidingSomething;
 }
 
-/*void Hitbox::display()
-{
-    int r=5,g=5,b=5;
-    if(m_isCollidingSomething)
-        r = 15, g = 15, b = 5;
-    Debugger::drawRect({m_rect.x,m_rect.y,m_rect.w, 1},r,g,b);
-    Debugger::drawRect({m_rect.x,m_rect.y,1,m_rect.h},r,g,b);
-    Debugger::drawRect({m_rect.x,m_rect.y+m_rect.h-1,m_rect.w, 1},r,g,b);
-    Debugger::drawRect({m_rect.x+m_rect.w-1,m_rect.y,1,m_rect.h},r,g,b);
-}
-
 void Hitbox::display(int x, int y)
 {
     int r=5,g=5,b=5;
     if(m_isCollidingSomething)
         r = 15, g = 15, b = 5;
-    Debugger::drawRect({x,y,m_rect.w, 1},r,g,b);
-    Debugger::drawRect({x,y,1,m_rect.h},r,g,b);
-    Debugger::drawRect({x,y+m_rect.h-1,m_rect.w, 1},r,g,b);
-    Debugger::drawRect({x+m_rect.w-1,y,1,m_rect.h},r,g,b);
-}*/
+    int w = x+m_rect.w;
+    int h = y+m_rect.h;
+    glLine(x,y,w-1,y,RGB15(r,g,b));
+    glLine(x,h-1,w-1,h-1,RGB15(r,g,b));
+    glLine(x,y,x-1,h-1,RGB15(r,g,b));
+    glLine(w-1,y,w-2,h-1,RGB15(r,g,b));
+}
 
 void Hitbox::setRect(int x, int y, int w, int h)
 {

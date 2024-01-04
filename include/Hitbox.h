@@ -11,8 +11,7 @@
 			Hitbox(int x, int y, int w, int h);
 			~Hitbox();
 			bool collide(const Hitbox& other);
-			//void display(int x, int y);
-			//void display();
+			void display(int x, int y);
 			void setRect(int x, int y, int w, int h);
 			const rect& getRect();
 		private:

@@ -9,7 +9,7 @@
 	#include <cmath>
 
 	#define DEBUG_MODE_ENABLE
-	#define FPS_ENABLE
+	//#define FPS_ENABLE
 
 	enum{X,Y};
 	enum{W,H};

@@ -12,6 +12,7 @@
 
 			T& front();
 			T& back();
+			T& middle();
 			void push_front(const T& newElement);
 			void push_back(const T&  newElement);
 			T& operator[](int index);
@@ -39,6 +40,11 @@
 	template<typename T> T& CircularDeque<T>::back()
 	{
 		return m_tab[m_back];
+	}
+
+	template<typename T> T& CircularDeque<T>::middle()
+	{
+		return (*this)[size()/2];
 	}
 
 	template<typename T> void CircularDeque<T>::push_front(const T&  newElement)

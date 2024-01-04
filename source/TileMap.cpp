@@ -7,18 +7,18 @@
 
 using namespace std;
 
-TileMap::TileMap(int8 mapTab[][TILEMAP_SIZE_X])
+TileMap::TileMap(int8 mapTab[][TILEMAP_SIZE_X], float scale):
+m_map(LOADED_ZONE_W),
+m_pos{0,0},
+m_tileSprites{
+	*(new CREATE_SPRITE(16,16,PathTile,5,1)),
+	*(new CREATE_SPRITE(16,16,WallTile,5,1))
+},
+m_scale(scale)
 {
-	m_pos[X] = 0;
-	m_pos[Y] = 0;
-
-	m_tileSprites[METATILE::TYPE::PATH] = *(new CREATE_SPRITE(16,16,PathTile,5,1));
-	m_tileSprites[METATILE::TYPE::WALL] = *(new CREATE_SPRITE(16,16,WallTile,5,1));
-
 	for (unsigned int i = 0 ; i < TILEMAP_SIZE_X ; ++i)
 		for (unsigned int j = 0 ; j < TILEMAP_SIZE_Y ; ++j)
 			m_intMap[i][j] = mapTab[j][i];
-	m_map = CircularDeque<CircularDeque<MetaTile>>(LOADED_ZONE_W);
 	generateMap();
 }
 TileMap::~TileMap() {}
@@ -32,14 +32,15 @@ void TileMap::update()
 		reload();
 	}
 	//center player pos
-	int playPos[2]{int(m_player->getPos(X)+m_player->getSize(W)/2),
-				   int(m_player->getPos(Y)+m_player->getSize(H)/2)};
+	int playPos[2]{
+		int(m_player->getPos(X)+m_player->getSize(W)/2),
+		int(m_player->getPos(Y)+m_player->getSize(H)/2)};
 	for (unsigned int i = 0; i < m_map.size(); ++i)
 		for (unsigned int j = 0 ; j < m_map[i].size() ; ++j)
 		{
 			m_map[i][j].update(playPos[X],playPos[Y]);
-			if(!m_map[i][j].isInRenderZone(playPos[X],playPos[Y]))
-				m_map[i][j].unload();
+			/*if(!m_map[i][j].isInRenderZone(playPos[X],playPos[Y]))
+				m_map[i][j].unload();*/
 		}
 }
 
@@ -50,7 +51,7 @@ void TileMap::display()
 				   int(m_player->getPos(Y)+m_player->getSize(H)/2)};
 	for (unsigned int i = 0; i < m_map.size(); ++i)
 		for (unsigned int j = 0 ; j < m_map[i].size() ; ++j)
-			if(m_map[i][j].isInRenderZone(playPos[X],playPos[Y]))
+			/*if(m_map[i][j].isInRenderZone(playPos[X],playPos[Y]))*/
 				m_map[i][j].display(playPos[X],playPos[Y]);
 }
 
@@ -107,14 +108,23 @@ void TileMap::loadZone(float x, float y)
 
 void TileMap::setCenterMetaTile(MetaTile* centerMetaTile)
 {
-	if(centerMetaTile->getCoo(X) > m_centerMetaTile->getCoo(X))
-		loadRight();
-	else if(centerMetaTile->getCoo(X) < m_centerMetaTile->getCoo(X))
-		loadLeft();
-	else if(centerMetaTile->getCoo(Y) > m_centerMetaTile->getCoo(Y))
-		loadBottom();
-	else if(centerMetaTile->getCoo(Y) < m_centerMetaTile->getCoo(Y))
-		loadTop();
+	int x = centerMetaTile->getCoo(X);
+	int y = centerMetaTile->getCoo(Y);
+	for(MetaTile middle = m_map.middle().middle();
+		x != m_map.middle().middle().getCoo(X) or
+		y != m_map.middle().middle().getCoo(Y);
+		middle = m_map.middle().middle())
+	{
+		if(x > middle.getCoo(X))
+			loadRight();
+		else if(x < middle.getCoo(X))
+			loadLeft();
+		if(y > middle.getCoo(Y))
+			loadBottom();
+		else if(y < middle.getCoo(Y))
+			loadTop();
+	}
+
 	m_centerMetaTile = centerMetaTile;
 
 	calculateConnections();
@@ -146,8 +156,8 @@ void TileMap::setPos(int x, int y)
 
 void TileMap::generateMap()
 {
-	int centerX = (m_player->getPos(X) + m_player->getSize(W)/2)/METATILE::SIZE;
-	int centerY = (m_player->getPos(Y) + m_player->getSize(H)/2)/METATILE::SIZE;
+	int centerX = (m_player->getPos(X) + m_player->getSize(W)/2)/(METATILE::SIZE*m_scale);
+	int centerY = (m_player->getPos(Y) + m_player->getSize(H)/2)/(METATILE::SIZE*m_scale);
 	int tileType = METATILE::TYPE::WALL;
 
 	for (int i = 0; i < LOADED_ZONE_W; ++i)
@@ -164,9 +174,10 @@ void TileMap::generateMap()
 			MetaTile metaTile(this,
 							  &m_tileSprites[tileType],
 							  tileType,
-							  cooX*METATILE::SIZE,
-							  cooY*METATILE::SIZE,
-							  cooX,cooY);
+							  cooX*METATILE::SIZE*m_scale,
+							  cooY*METATILE::SIZE*m_scale,
+							  cooX,cooY,
+							  m_scale);
 			m_map.back().push_back(metaTile);
 		}
 	}
@@ -234,10 +245,11 @@ void TileMap::loadRight()
 		m_map.back().push_back(MetaTile(this,
 							  		&m_tileSprites[tileType],
 									tileType,
-									cooX*METATILE::SIZE,
-									cooY*METATILE::SIZE,
-									cooX,cooY));
-		m_map.back().back().setDisplayPos(m_pos[X]+cooX*METATILE::SIZE, m_pos[Y]+cooY*METATILE::SIZE);
+									cooX*METATILE::SIZE*m_scale,
+									cooY*METATILE::SIZE*m_scale,
+									cooX,cooY,
+									m_scale));
+		m_map.back().back().setDisplayPos(m_pos[X]+cooX*METATILE::SIZE*m_scale, m_pos[Y]+cooY*METATILE::SIZE*m_scale);
 	}
 }
 void TileMap::loadLeft()
@@ -256,10 +268,11 @@ void TileMap::loadLeft()
 		m_map.front().push_back(MetaTile(this,
 							  		&m_tileSprites[tileType],
 									tileType,
-									cooX*METATILE::SIZE,
-									cooY*METATILE::SIZE,
-									cooX,cooY));
-		m_map.front().back().setDisplayPos(m_pos[X]+cooX*METATILE::SIZE, m_pos[Y]+cooY*METATILE::SIZE);
+									cooX*METATILE::SIZE*m_scale,
+									cooY*METATILE::SIZE*m_scale,
+									cooX,cooY,
+									m_scale));
+		m_map.front().back().setDisplayPos(m_pos[X]+cooX*METATILE::SIZE*m_scale, m_pos[Y]+cooY*METATILE::SIZE*m_scale);
 	}
 }
 void TileMap::loadBottom()
@@ -276,10 +289,11 @@ void TileMap::loadBottom()
 		m_map[i].push_back(MetaTile(this,
 							  		&m_tileSprites[tileType],
 									tileType,
-									cooX*METATILE::SIZE,
-									cooY*METATILE::SIZE,
-									cooX,cooY));
-		m_map[i].back().setDisplayPos(m_pos[X]+cooX*METATILE::SIZE, m_pos[Y]+cooY*METATILE::SIZE);
+									cooX*METATILE::SIZE*m_scale,
+									cooY*METATILE::SIZE*m_scale,
+									cooX,cooY,
+									m_scale));
+		m_map[i].back().setDisplayPos(m_pos[X]+cooX*METATILE::SIZE*m_scale, m_pos[Y]+cooY*METATILE::SIZE*m_scale);
 	}
 }
 void TileMap::loadTop()
@@ -296,9 +310,10 @@ void TileMap::loadTop()
 		m_map[i].push_front(MetaTile(this,
 							  		&m_tileSprites[tileType],
 									tileType,
-									cooX*METATILE::SIZE,
-									cooY*METATILE::SIZE,
-									cooX,cooY));
-		m_map[i].front().setDisplayPos(m_pos[X]+cooX*METATILE::SIZE, m_pos[Y]+cooY*METATILE::SIZE);
+									cooX*METATILE::SIZE*m_scale,
+									cooY*METATILE::SIZE*m_scale,
+									cooX,cooY,
+									m_scale));
+		m_map[i].front().setDisplayPos(m_pos[X]+cooX*METATILE::SIZE*m_scale, m_pos[Y]+cooY*METATILE::SIZE*m_scale);
 	}
 }

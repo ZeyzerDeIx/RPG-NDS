@@ -72,7 +72,7 @@ int main()
 
 	vramSetBankF(VRAM_F_TEX_PALETTE_SLOT0);  // Allocate VRAM bank for all the palettes
 
-	TileMap tileMap(intMap);
+	TileMap tileMap(intMap, 1.5f);
 
 	Sprite playerSprite = CREATE_SPRITE_T(24, 34, PlayerSprite, 4, 8);
 	Player player(&tileMap, &playerSprite, 24,34);

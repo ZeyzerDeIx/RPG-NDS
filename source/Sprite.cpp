@@ -101,9 +101,9 @@ void Sprite::display(int posX, int posY)
 	glSprite(posX,posY,0,&m_images[m_currentState*m_framesNumber+m_currentFrame]);
 }
 
-void Sprite::manualDisplay(int posX, int posY, int frame, int state, bool flipX, bool flipY)
+void Sprite::manualDisplay(int posX, int posY, int frame, int state, float scale, bool flipX, bool flipY)
 {
-	glSprite(posX,posY,(GL_FLIP_H*flipX)|(GL_FLIP_V*flipY),&m_images[state*m_framesNumber+frame]);
+	glSpriteScale(posX,posY, NORMAL_SCALE*scale,(GL_FLIP_H*flipX)|(GL_FLIP_V*flipY),&m_images[state*m_framesNumber+frame]);
 }
 
 void Sprite::displayAll()

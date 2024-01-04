@@ -6,19 +6,23 @@ using namespace TILE;
 using namespace std;
 
 Tile::Tile() {}
-Tile::Tile(Sprite* sprite, int corner, int posX, int posY):m_sprite(sprite), m_corner(corner)
-{
-	m_displayPos[X] = m_pos[X] = posX;
-	m_displayPos[Y] = m_pos[Y] = posY;
-	m_connections = 0;
-	m_isLoaded = false;
-}
+
+Tile::Tile(Sprite* sprite, int corner, int posX, int posY, float scale):
+	m_sprite(sprite),
+	m_pos{posX,posY},
+	m_displayPos{posX,posY},
+	m_connections(0),
+	m_corner(corner),
+	m_scale(scale),
+	m_isLoaded(false)
+{}
+
 Tile::~Tile() {}
 
 
 void Tile::display()
 {
-	m_sprite->manualDisplay(m_displayPos[X], m_displayPos[Y], m_connections, 0 ,m_corner&1, m_corner>1);
+	m_sprite->manualDisplay(m_displayPos[X], m_displayPos[Y], m_connections, 0, m_scale, m_corner&1, m_corner>1);
 	m_isLoaded = true;
 }
 

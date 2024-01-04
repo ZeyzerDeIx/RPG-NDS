@@ -23,7 +23,7 @@
 	{
 		public:
 			Tile();
-			Tile(Sprite* sprite, int corner, int posX, int posY);
+			Tile(Sprite* sprite, int corner, int posX, int posY, float scale=1.f);
 			~Tile();
 			void display();
 			void setConnections(u8 connections);
@@ -39,8 +39,9 @@
 			Sprite* m_sprite;
 			int m_pos[2];
 			int m_displayPos[2];
-			u8 m_corner;
 			u8 m_connections;
+			u8 m_corner;
+			float m_scale;
 			bool m_isLoaded;
 	};
 
