@@ -10,7 +10,7 @@ Tile::Tile() {}
 Tile::Tile(Sprite* sprite, int corner, int posX, int posY, float scale):
 	m_sprite(sprite),
 	m_pos{posX,posY},
-	m_displayPos{posX,posY},
+	m_displayPos{(short)posX,(short)posY},
 	m_connections(0),
 	m_corner(corner),
 	m_scale(scale)

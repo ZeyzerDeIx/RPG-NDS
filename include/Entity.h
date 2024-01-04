@@ -15,7 +15,6 @@
 			void displayHitbox();
 			void move(float x, float y);
 			void setPos(float x, float y);
-			void setZoomed(bool zoomed = true);
 			float getPos(bool xOrY);
 			float getSize(bool wOrH);
 			Hitbox& getHitbox();
@@ -26,7 +25,6 @@
 			float m_size[2];
 			float m_speed;
 			Hitbox m_hitbox;
-			bool m_zoomed;
 
 	};
 

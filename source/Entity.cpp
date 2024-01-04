@@ -6,11 +6,10 @@ using namespace std;
 Entity::Entity(Sprite* sprite, float w, float h, float posX, float posY):
 	m_sprite(sprite),
 	m_pos{posX,posY},
-	m_displayPos{posX,posY},
+	m_displayPos{(short)posX,(short)posY},
 	m_size{w,h},
 	m_speed(1.5f),
-	m_hitbox(m_pos[X],m_pos[Y],w,h),
-	m_zoomed(false)
+	m_hitbox(m_pos[X],m_pos[Y],w,h)
 {}
 
 Entity::~Entity() {}
@@ -41,11 +40,6 @@ void Entity::setPos(float x, float y)
 {
 	m_pos[X] = x;
 	m_pos[Y] = y;
-}
-
-void Entity::setZoomed(bool zoomed)
-{
-	m_zoomed = zoomed;
 }
 
 float Entity::getPos(bool xOrY)
