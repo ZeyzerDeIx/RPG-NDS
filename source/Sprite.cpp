@@ -4,14 +4,11 @@ using namespace std;
 int Sprite::loadedSprites = 0;
 
 Sprite::Sprite(){}
-Sprite::Sprite(int frameWidth, int frameHeight, const unsigned int* bitmap, const uint16* palette, int framesNumber, int statesNumber, bool transparency)
+Sprite::Sprite(int frameWidth, int frameHeight, const unsigned int* bitmap, const uint16* palette, int framesNumber, int statesNumber, bool transparency):
+	m_size{frameWidth, frameHeight},
+	m_framesNumber(framesNumber),
+	m_statesNumber(statesNumber)
 {
-	m_size[W] = frameWidth;
-	m_size[H] = frameHeight;
-
-	m_framesNumber = framesNumber;
-	m_statesNumber = statesNumber;
-
 	int imagesNumber = m_framesNumber*m_statesNumber;
 
 	m_images = new glImage[imagesNumber];
@@ -30,48 +27,12 @@ Sprite::Sprite(int frameWidth, int frameHeight, const unsigned int* bitmap, cons
 
 	glColorSubTableEXT(0,(loadedSprites++)*256,256,0,0,palette);
 
-	int textureSize[2];
-	textureSize[W] = TEXTURE_SIZE_8;
-	if(m_framesNumber*m_size[W] <= 16)
-		textureSize[W] = TEXTURE_SIZE_16;
-	else if(m_framesNumber*m_size[W] <= 32)
-		textureSize[W] = TEXTURE_SIZE_32;
-	else if(m_framesNumber*m_size[W] <= 64)
-		textureSize[W] = TEXTURE_SIZE_64;
-	else if(m_framesNumber*m_size[W] <= 128)
-		textureSize[W] = TEXTURE_SIZE_128;
-	else if(m_framesNumber*m_size[W] <= 256)
-		textureSize[W] = TEXTURE_SIZE_256;
-	else if(m_framesNumber*m_size[W] <= 512)
-		textureSize[W] = TEXTURE_SIZE_512;
-	else if(m_framesNumber*m_size[W] <= 1024)
-		textureSize[W] = TEXTURE_SIZE_1024;
-	else
-		cout << "Error: texture size W > 1024!!" << endl;
-	textureSize[H] = TEXTURE_SIZE_8;
-	if(m_statesNumber*m_size[H] <= 16)
-		textureSize[H] = TEXTURE_SIZE_16;
-	else if(m_statesNumber*m_size[H] <= 32)
-		textureSize[H] = TEXTURE_SIZE_32;
-	else if(m_statesNumber*m_size[H] <= 64)
-		textureSize[H] = TEXTURE_SIZE_64;
-	else if(m_statesNumber*m_size[H] <= 128)
-		textureSize[H] = TEXTURE_SIZE_128;
-	else if(m_statesNumber*m_size[H] <= 256)
-		textureSize[H] = TEXTURE_SIZE_256;
-	else if(m_statesNumber*m_size[H] <= 512)
-		textureSize[H] = TEXTURE_SIZE_512;
-	else if(m_statesNumber*m_size[H] <= 1024)
-		textureSize[H] = TEXTURE_SIZE_1024;
-	else
-		cout << "Error: texture size H > 1024!!" << endl;
-
 	glLoadSpriteSet(m_images,
 		imagesNumber,
 		m_textCoord,
 		GL_RGB256,
-		textureSize[W],
-		textureSize[H],
+		calculateTextureSize(W),
+		calculateTextureSize(H),
 			TEXGEN_OFF|
 			GL_TEXTURE_COLOR0_TRANSPARENT*transparency,
 		256,
@@ -93,12 +54,13 @@ Sprite::~Sprite()
 void Sprite::update()
 {
 	if(m_animationSpeed == 0) return;
-	if (++m_counter >= m_animationSpeed) skipFrame(), m_counter = 0;
+	if (++m_counter >= m_animationSpeed) 
+		skipFrame(), m_counter = 0;
 }
 
-void Sprite::display(int posX, int posY)
+void Sprite::display(short* position)
 {
-	glSprite(posX,posY,0,&m_images[m_currentState*m_framesNumber+m_currentFrame]);
+	glSprite(position[X],position[Y],0,&m_images[m_currentState*m_framesNumber+m_currentFrame]);
 }
 
 void Sprite::manualDisplay(int posX, int posY, int frame, int state, float scale, bool flipX, bool flipY)
@@ -145,4 +107,34 @@ void Sprite::setAnimationSpeed(int animationSpeed)
 int Sprite::getSize(bool xOrY)
 {
 	return m_size[xOrY];
+}
+
+
+
+//privates methodes
+
+//calculate wich TEXTURE_SIZE is required for the requested axis
+int Sprite::calculateTextureSize(bool wOrH)
+{
+	int number = wOrH ? m_statesNumber : m_framesNumber;
+
+	int textureSize = TEXTURE_SIZE_8;
+	if(number*m_size[wOrH] <= 16)
+		textureSize = TEXTURE_SIZE_16;
+	else if(number*m_size[wOrH] <= 32)
+		textureSize = TEXTURE_SIZE_32;
+	else if(number*m_size[wOrH] <= 64)
+		textureSize = TEXTURE_SIZE_64;
+	else if(number*m_size[wOrH] <= 128)
+		textureSize = TEXTURE_SIZE_128;
+	else if(number*m_size[wOrH] <= 256)
+		textureSize = TEXTURE_SIZE_256;
+	else if(number*m_size[wOrH] <= 512)
+		textureSize = TEXTURE_SIZE_512;
+	else if(number*m_size[wOrH] <= 1024)
+		textureSize = TEXTURE_SIZE_1024;
+	else
+		cout << "Error: texture size " << (wOrH ? "H" : "W") << " > 1024!!" << endl;
+
+	return textureSize;
 }

@@ -8,8 +8,6 @@
 
 	#define TILEMAP_SIZE_X 32
 	#define TILEMAP_SIZE_Y 32
-	#define FOG_DISTANCE_X 150
-	#define FOG_DISTANCE_Y 120
 	#define LOADED_ZONE_W 7
 	#define LOADED_ZONE_H 5
 
@@ -20,7 +18,7 @@
 	class TileMap
 	{
 		public:
-			TileMap(int8 mapTab[][TILEMAP_SIZE_X], float scale = 1.f);
+			TileMap(const int8 mapTab[][TILEMAP_SIZE_X], float scale = 1.5f);
 			~TileMap();
 
 			void update();

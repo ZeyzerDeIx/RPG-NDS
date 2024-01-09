@@ -4,8 +4,8 @@
 #include "TileMap.h"
 #include "Camera.h"
 
-#include "PlayerSprite.h"
-#include "PathTile.h"
+//contains the gameMap as a 2 dimensionnal array of int8
+#include "maps.cpp"
 
 using namespace std;
 
@@ -13,41 +13,7 @@ using namespace std;
 
 int main() 
 {	
-	int8 intMap[TILEMAP_SIZE_Y][TILEMAP_SIZE_X] = 
-    {
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1},
-        {0,0,1,0,0,0,1,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1},
-        {0,0,0,0,0,0,1,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,1},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-        {1,1,0,0,1,0,0,0,1,1,1,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1,1,0,0,0,0,1},
-        {1,1,0,0,1,0,0,0,1,1,1,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1,1,0,0,0,0,1},
-        {1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1},
-        {1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1},
-        {1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0},
-        {1,0,0,0,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,0,1,1,1,1,1,1,1,0,1,1,1,0},
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0},
-        {1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
-        {1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
-        {1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
-        {0,0,0,0,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0},
-        {0,0,0,0,0,0,1,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,0},
-        {0,0,0,0,0,0,1,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,0},
-        {0,0,0,0,0,0,1,0,1,0,0,1,1,1,1,1,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1,0},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-        {1,1,1,0,1,0,0,0,1,1,1,0,0,0,0,1,1,1,1,0,1,0,0,0,1,1,1,0,0,0,0,1},
-        {1,1,1,0,1,0,0,0,1,1,1,0,0,0,0,1,1,1,1,0,1,0,0,0,1,1,1,0,0,0,0,1},
-        {1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,1},
-        {1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,1},
-        {1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,1},
-        {1,0,0,0,0,1,1,1,1,1,1,1,1,0,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,0,1,1},
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1},
-        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-    };
+	
 	
 	//set mode 5, enable BG0 and set it to 3D
 	videoSetMode( MODE_5_3D );
@@ -55,66 +21,60 @@ int main()
 	glScreen2D();
 	
 	#ifdef DEBUG_MODE_ENABLE
+	//Enable bottom screen as debug console
 	consoleDemoInit();
 	#endif
 
 	#ifdef FPS_ENABLE
+	//Create the FPS displayer
 	Fps fps(10);
 	#endif
 
-    touchPosition touch;
-
 
     // Set up enough texture memory for our textures
-	// Bank A is just 128kb and we are using 194 kb of
-	// sprites
 	vramSetBankA( VRAM_A_TEXTURE );
+	// Allocate VRAM bank for all the palettes
+	vramSetBankF(VRAM_F_TEX_PALETTE_SLOT0);
 
-	vramSetBankF(VRAM_F_TEX_PALETTE_SLOT0);  // Allocate VRAM bank for all the palettes
+	//Create the tileMap
+	TileMap tileMap(gameMap);
 
-	TileMap tileMap(intMap, 1.5f);
+	//Create the player and link it to the tileMap
+	Player player(&tileMap);
 
-	Sprite playerSprite = CREATE_SPRITE_T(24, 34, PlayerSprite, 4, 8);
-	Player player(&tileMap, &playerSprite, 24,34);
-	//Sprite tileSprite = CREATE_SPRITE(16,16,PathTile,5,1);
-
+	//Create the handler wich will read and treat all inputs
 	Handler handler(&player, &tileMap);
 
+	//Create the camera to manage tileMap position relative to the screen and the player position
 	Camera camera(&tileMap);
 	
-	while( 1 ) 
+	while( true ) 
 	{
-		swiWaitForVBlank();
-		touchRead(&touch);
-
-		/*cout << "\x1b[10;0HTouch x = "
-		<< setfill(' ') << setw(3)
-		<< touch.px << endl;
-		cout << "Touch y = "
-		<< setfill(' ') << setw(3)
-		<< touch.py << endl;*/
 
 		#ifdef FPS_ENABLE
+		//calculate and display FPS
 		fps.newFrame();
 		#endif
 
+		//Read and handle player inputs
 		handler.handleInputs();
+
+		//update map camera and player
+		tileMap.update();
+		camera.followPlayer();
+		player.update();
 
 
 		// Start 2D mode
 		glBegin2D();
 		// Normalize color
 		glColor( RGB15(31, 31, 31) );
-		//tileSprite.displayAll();
-		tileMap.update();
-		camera.followPlayer();
 		tileMap.display();
-		player.update();
 		player.display();
 		glEnd2D();
 
 		
-		
+		//swap the buffers and wait until new frame
 		glFlush( 0 );
 	}
 

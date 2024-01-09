@@ -5,9 +5,6 @@
 	#include <iostream>
 	#include <string.h>
 	#include <gl2d.h>
-	#include <iomanip>
-	#include <cmath>
-
 	#define SCREEN_RESOLUTION_X 256.f
 	#define SCREEN_RESOLUTION_Y 192.f
 

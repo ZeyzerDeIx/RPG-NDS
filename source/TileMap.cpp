@@ -6,7 +6,7 @@
 
 using namespace std;
 
-TileMap::TileMap(int8 mapTab[][TILEMAP_SIZE_X], float scale):
+TileMap::TileMap(const int8 mapTab[][TILEMAP_SIZE_X], float scale):
 m_map(LOADED_ZONE_W),
 m_pos{0,0},
 m_tileSprites{

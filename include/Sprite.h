@@ -12,7 +12,7 @@
 		~Sprite();
 
 		void update();
-		void display(int posX, int posY);
+		void display(short* position);
 		void manualDisplay(int posX, int posY, int frame = 0, int state = 0, float scale = 1.f, bool flipX = false, bool flipY = false);
 		void displayAll();
 		void skipFrame(int num = 1);
@@ -31,6 +31,8 @@
 		int m_animationSpeed;
 		int m_counter;
 		static int loadedSprites;
+
+		int calculateTextureSize(bool wOrH);
 	};
 
 	#define CREATE_SPRITE(pixelW,pixelH,name,frames,states) Sprite(pixelW, pixelH, name ## Bitmap, name ## Pal, frames, states)

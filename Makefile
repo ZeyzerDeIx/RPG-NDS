@@ -24,7 +24,7 @@ TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data  
-INCLUDES	:=	include
+INCLUDES	:=	include maps
 GRAPHICS	:=	sprite
 
 

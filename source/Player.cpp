@@ -1,22 +1,31 @@
 #include "Player.h"
+#include "PlayerSprite.h"
 
 using namespace std;
 
-Player::Player(TileMap* tileMap, Sprite* sprite, float w, float h):
-Character(tileMap, sprite, w, h)
+//As a unique character, the player class manages it's sprite itself
+Player::Player(TileMap* tileMap):
+Character(tileMap,
+	new CREATE_SPRITE_T(24, 34, PlayerSprite, 4, 8),
+	24, 34)
 
 {
+	//As a friend class of TileMap, the player can assign itself to the private attribute of TileMap "m_player"
 	tileMap->m_player = this;
+	//default position, top left corner of the TileMap
 	m_pos[X] = m_pos[Y] = 0;
 	m_sprint = false;
+
+	//positionning the player in the middle of the screen
 	m_displayPos[X] = 256.f/2.f - m_size[W]/2.f;
 	m_displayPos[Y] = 192.f/2.f - m_size[H]/2.f;
 }
+//Because it manages it's sprite itself, it also has to free the memory manually
+Player::~Player() { delete m_sprite; }
 
 void Player::display()
 {
-	//centered in screen
-	m_sprite->display(m_displayPos[X],m_displayPos[Y]);
+	m_sprite->display(m_displayPos);
 	#ifdef DEBUG_MODE_ENABLE
 	displayHitbox();
 	#endif

@@ -1,4 +1,5 @@
 #include "Fps.h"
+#include <iomanip>
 
 #ifdef FPS_ENABLE
 using namespace std;

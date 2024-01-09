@@ -23,7 +23,7 @@ void Entity::update()
 
 void Entity::display()
 {
-	m_sprite->display(m_displayPos[X], m_displayPos[Y]);
+	m_sprite->display(m_displayPos);
 }
 
 void Entity::displayHitbox()
