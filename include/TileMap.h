@@ -7,7 +7,7 @@
 	#include "CircularDeque.h"
 
 	#define TILEMAP_SIZE_X 32
-	#define TILEMAP_SIZE_Y 32
+	#define TILEMAP_SIZE_Y 50
 	#define LOADED_ZONE_W 7
 	#define LOADED_ZONE_H 5
 
