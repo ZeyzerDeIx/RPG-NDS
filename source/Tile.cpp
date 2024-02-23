@@ -21,7 +21,7 @@ Tile::~Tile() {}
 
 void Tile::display()
 {
-	m_sprite->manualDisplay(m_displayPos[X], m_displayPos[Y], m_connections, 0, m_scale, m_corner&1, m_corner>1);
+	m_sprite->manualDisplay(m_displayPos, m_connections, 0, m_scale, m_corner&1, m_corner>1);
 }
 
 void Tile::setConnections(u8 connections)

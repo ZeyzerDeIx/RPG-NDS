@@ -8,8 +8,8 @@
 	#define SCREEN_RESOLUTION_X 256.f
 	#define SCREEN_RESOLUTION_Y 192.f
 
-	//#define DEBUG_MODE_ENABLE
-	//#define FPS_ENABLE
+	#define DEBUG_MODE_ENABLE
+	#define FPS_ENABLE
 
 	enum{X,Y};
 	enum{W,H};

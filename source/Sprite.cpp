@@ -63,9 +63,9 @@ void Sprite::display(short* position)
 	glSprite(position[X],position[Y],0,&m_images[m_currentState*m_framesNumber+m_currentFrame]);
 }
 
-void Sprite::manualDisplay(int posX, int posY, int frame, int state, float scale, bool flipX, bool flipY)
+void Sprite::manualDisplay(short* position, int frame, int state, float scale, bool flipX, bool flipY)
 {
-	glSpriteScale(posX,posY, NORMAL_SCALE*scale,(GL_FLIP_H*flipX)|(GL_FLIP_V*flipY),&m_images[state*m_framesNumber+frame]);
+	glSpriteScale(position[X],position[Y], NORMAL_SCALE*scale,(GL_FLIP_H*flipX)|(GL_FLIP_V*flipY),&m_images[state*m_framesNumber+frame]);
 }
 
 void Sprite::displayAll()
@@ -79,7 +79,7 @@ void Sprite::displayAll()
 	}
 }
 
-void Sprite::skipFrame(int num)
+void Sprite::skipFrame()
 {
 	//si l'animation dépasse le nombre total de frame on la réinitialise
 	if(m_currentFrame >= m_framesNumber-1) m_currentFrame = 0;

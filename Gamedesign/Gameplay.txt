@@ -1,0 +1,19 @@
+Notes:
+- L'Obscurien ne sait pas lire, le tuto sera dans une zone où on peut apprendre à lire, en attendant, il sera bloqué tant qu'il n'aura pas appris à lire. Le moyen de sortir sera disponible dans un texte.
+- Lorsque l'Obscurien nait (et renait), seul sont corps émerge, il doit récupérer son Oeil qui lui confèrera les quelques capacité du jeu. Il peut être récupéré prêt du spawn en faisant une certaines manip.
+
+
+**Vision Spectrale :**
+- L'œil du joueur peut voir des traces spectrales laissées par d'anciens habitants ou événements.
+- En suivant ces traces, le joueur peut débloquer des passages ou revivre des moments clés pour obtenir des informations.
+
+**Communication Mentale :**
+- Le joueur peut entrer en contact mental avec des vestiges de pensées ou de consciences.
+- Ces interactions pourraient révéler des indices sur la disposition du donjon et la manière de progresser.
+**Écoute de l'Écho Temporel :**
+- L'œil peut détecter des échos temporels, des résonances d'événements passés.
+- Suivre ces échos pourrait guider le joueur vers des zones autrement inaccessibles.
+
+**Récit :**
+- L'œil peut "lire" les écrits  laissés sur les murs, révélant l'histoire du donjon.
+- En comprenant cette histoire, le joueur pourrait anticiper des événements, révéler des passages, ou influencer l'environnement.

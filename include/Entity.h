@@ -8,6 +8,9 @@
 	class Entity
 	{
 		public:
+			/*Main constructor
+			* -
+			*/
 			Entity(Sprite* sprite, float w, float h, float posX = 0.f, float posY = 0.f);
 			~Entity();
 			void update();

@@ -32,7 +32,10 @@ int main()
 
 
     // Set up enough texture memory for our textures
-	vramSetBankA( VRAM_A_TEXTURE );
+	vramSetBankA(VRAM_A_TEXTURE_SLOT0);
+	vramSetBankB(VRAM_B_TEXTURE_SLOT1);
+	vramSetBankC(VRAM_C_TEXTURE_SLOT2);
+	vramSetBankD(VRAM_D_TEXTURE_SLOT3);
 	// Allocate VRAM bank for all the palettes
 	vramSetBankF(VRAM_F_TEX_PALETTE_SLOT0);
 
